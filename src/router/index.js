@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from '@/views/LoginView.vue'
 import AccueilView from '@/views/AccueilView.vue'
-import MedecinsView from '@/views/MedecinsView.vue'
+import MedecinsView from '@/views/MedecinView.vue'
+import RapportsView from '@/views/RapportsView.vue'
 
 const router = createRouter({
   history: createWebHistory(),

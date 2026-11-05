@@ -51,6 +51,7 @@
 <script setup>
 import { storeToRefs } from 'pinia'
 import { useGsbStore } from '@/stores/gsbStore'
+import NavbarComponent from '@/components/NavbarComponent.vue'
 
 const gsbStore = useGsbStore()
 const { utilisateur } = storeToRefs(gsbStore)

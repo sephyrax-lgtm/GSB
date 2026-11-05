@@ -1,40 +1,43 @@
+
 <template>
   <main class="medecins">
+    <NavbarComponent />
+
     <h1>Liste des médecins</h1>
 
-    <input
-      v-model="recherche"
-      placeholder="Rechercher un médecin par nom"
-    >
+    <!-- Composant de recherche -->
+    <RechercheMedecinComponent />
+    <SousMenuMedecinComponent />
 
-    <p v-if="chargement">Chargement des médecins...</p>
-    <p v-else-if="erreur">Erreur lors du chargement des médecins.</p>
+    <!-- Informations du médecin sélectionné -->
+    <section v-if="medecin" class="carte">
+      <h2>Médecin sélectionné</h2>
 
-    <section v-else>
-      <p>{{ medecinsFiltres.length }} médecin(s) trouvé(s)</p>
-
-      <article
-        v-for="medecin in medecinsFiltres"
-        :key="medecin.id"
-        class="carte"
-      >
-        <h2>{{ medecin.nom }} {{ medecin.prenom }}</h2>
-        <p><strong>Adresse :</strong> {{ medecin.adresse }}</p>
-        <p><strong>Téléphone :</strong> {{ medecin.tel }}</p>
-      </article>
+      <p><strong>Nom :</strong> {{ medecin.nom }}</p>
+      <p><strong>Prénom :</strong> {{ medecin.prenom }}</p>
+      <p><strong>Adresse :</strong> {{ medecin.adresse }}</p>
+      <p><strong>Téléphone :</strong> {{ medecin.tel }}</p>
+      <p><strong>Spécialité :</strong> {{ medecin.specialite }}</p>
     </section>
+
   </main>
 </template>
+
+
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import DataService from '@/services/DataService'
+import NavbarComponent from '@/components/NavbarComponent.vue'
+import RechercheMedecinComponent from '@/components/RechercheMedecinComponent.vue'
+import { useGsbStore } from '@/stores/gsbStore'
+import SousMenuMedecinComponent from '@/components/SousMenuMedecinComponent.vue'
+
 
 const medecins = ref([])
 const recherche = ref('')
 const chargement = ref(true)
 const erreur = ref(false)
 
-// Charger les médecins depuis l'API
 onMounted(async () => {
   try {
     medecins.value = await DataService.getMedecins()
@@ -45,13 +48,11 @@ onMounted(async () => {
   }
 })
 
-// Filtrer les médecins selon la recherche
 const medecinsFiltres = computed(() => {
   return medecins.value.filter(medecin =>
     medecin.nom.toLowerCase().includes(recherche.value.toLowerCase())
   )
 })
-
 </script>
 
 <style scoped>
@@ -78,5 +79,4 @@ input {
 .carte h2 {
   color: #123b63;
 }
-
 </style>
