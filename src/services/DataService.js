@@ -34,6 +34,26 @@ class DataService {
     return await response.json()
   }
 
+  // Récupérer les rapports d'un médecin
+ 
+  // Modifier les informations d'un médecin
+  async majMedecin(medecin) {
+    const response = await fetch(`${API_URL}/majMedecin`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(medecin)
+    })
+
+    if (!response.ok) {
+      throw new Error(`Erreur API : ${response.status}`)
+    }
+
+    return await response.json()
+  }
+
+
 }
 
 export default new DataService()
