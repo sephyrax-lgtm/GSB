@@ -40,13 +40,16 @@ async function getLogin() {
   erreur.value = false
   succes.value = false
 
-  try {
-    await gsbStore.loginVisiteur(login.value, password.value)
-    succes.value = true
-    router.push('/accueil')
-  } catch {
-    erreur.value = true
-  }
+const visiteur = await gsbStore.loginVisiteur(
+  login.value,
+  password.value
+)
+
+console.log('Visiteur connecté :', visiteur)
+console.log('Visiteur enregistré dans Pinia :', gsbStore.utilisateur)
+
+succes.value = true
+router.push('/accueil')
 }
 </script>
 

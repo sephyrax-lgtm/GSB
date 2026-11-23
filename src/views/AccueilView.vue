@@ -15,7 +15,7 @@
     <section v-if="utilisateur" class="carte">
       <h2>Mes informations</h2>
 
-      <p><strong>Identifiant :</strong> {{ utilisateur.id }}</p>
+      <p><strong>Identifiant :</strong> {{ utilisateur.id }}</p> 
       <p><strong>Nom :</strong> {{ utilisateur.nom }}</p>
       <p><strong>Prénom :</strong> {{ utilisateur.prenom }}</p>
       <p><strong>Adresse :</strong> {{ utilisateur.adresse }}</p>
@@ -49,12 +49,12 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia'
+import { storeToRefs } from 'pinia' 
 import { useGsbStore } from '@/stores/gsbStore'
 import NavbarComponent from '@/components/NavbarComponent.vue'
 
-const gsbStore = useGsbStore()
-const { utilisateur } = storeToRefs(gsbStore)
+const gsbStore = useGsbStore() 
+const { utilisateur } = storeToRefs(gsbStore) 
 </script>
 
 <style scoped>

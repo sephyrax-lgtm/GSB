@@ -23,7 +23,7 @@
       </thead>
 
       <tbody>
-        <tr v-for="rapport in rapports" :key="rapport.id">
+        <tr v-for="(rapport, index) in rapports" :key="index">
           <td>{{ rapport.date }}</td>
           <td>{{ rapport.motif }}</td>
           <td>{{ rapport.bilan }}</td>

@@ -5,7 +5,7 @@ import DataService from '@/services/DataService'
 export const useGsbStore = defineStore('gsb', {
   state: () => ({
     // Informations du visiteur connecté
-    utilisateur: null,
+    utilisateur: JSON.parse(localStorage.getItem('visiteur')) || null,
     erreur: false,
 
     // Médecin sélectionné
@@ -25,9 +25,17 @@ export const useGsbStore = defineStore('gsb', {
 
       try {
         this.utilisateur = await DataService.getVisiteur(login, password)
+
+        // Conserver le visiteur après actualisation
+        localStorage.setItem(
+          'visiteur',
+          JSON.stringify(this.utilisateur)
+        )
+
         return this.utilisateur
       } catch (error) {
         this.utilisateur = null
+        localStorage.removeItem('visiteur')
         this.erreur = true
         throw error
       }

@@ -21,6 +21,8 @@
 
       <label>Téléphone :</label>
       <input v-model="form.tel" type="text">
+      <label>Spécialité :</label>
+      <input v-model="form.specialite" type="text">           
 
       <button type="submit">Modifier</button>
     </form>
@@ -48,7 +50,8 @@ const form = ref({
   adresse: '',
   cp: '',
   ville: '',
-  tel: ''
+  tel: '',
+  specialite: ''
 })
 
 // Remplir le formulaire avec les informations du médecin
@@ -60,7 +63,8 @@ watch(medecin, (nouveauMedecin) => {
       adresse: nouveauMedecin.adresse || '',
       cp: nouveauMedecin.cp || '',
       ville: nouveauMedecin.ville || '',
-      tel: nouveauMedecin.tel || ''
+      tel: nouveauMedecin.tel || '',
+      specialite: nouveauMedecin.specialitecomplementaire || ''
     }
   }
 }, { immediate: true })
@@ -68,10 +72,14 @@ watch(medecin, (nouveauMedecin) => {
 // Enregistrer les modifications
 async function modifierMedecin() {
   try {
-    await DataService.majMedecin({
+    const donnees = {
       id: medecin.value.id,
       ...form.value
-    })
+    }
+
+    console.log('Données envoyées :', donnees)
+
+    await DataService.majMedecin(donnees)
 
     message.value = 'Médecin modifié avec succès.'
   } catch (error) {
