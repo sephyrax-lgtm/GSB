@@ -1,4 +1,5 @@
 <template>
+  <!-- Contenu principal de la page d'accueil. -->
   <main class="accueil">
   <div class="menu-medecins">
   <router-link to="/medecins">
@@ -49,10 +50,12 @@
 </template>
 
 <script setup>
+// Permet d'extraire une propriété réactive du magasin Pinia.
 import { storeToRefs } from 'pinia' 
 import { useGsbStore } from '@/stores/gsbStore'
 import NavbarComponent from '@/components/NavbarComponent.vue'
 
+// Récupère le visiteur connecté pour afficher ses informations dans la page.
 const gsbStore = useGsbStore() 
 const { utilisateur } = storeToRefs(gsbStore) 
 </script>

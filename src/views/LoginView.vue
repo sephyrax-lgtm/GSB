@@ -1,4 +1,5 @@
 <template>
+  <!-- Carte contenant le formulaire de connexion et ses messages de retour. -->
   <main class="login-page">
     <section class="login-card">
       <h1>GSB</h1>
@@ -24,22 +25,27 @@
 </template>
 
 <script setup>
+// Importe ref pour créer des variables réactives et useRouter pour changer de page.
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useGsbStore } from '@/stores/gsbStore'
 
+// Champs et indicateurs utilisés par le formulaire.
 const login = ref('')
 const password = ref('')
 const erreur = ref(false)
 const succes = ref(false)
 
+// Récupère les outils de navigation et le magasin de l'application.
 const router = useRouter()
 const gsbStore = useGsbStore()
 
 async function getLogin() {
+  // Efface les messages précédents avant de lancer l'authentification.
   erreur.value = false
   succes.value = false
 
+  // Demande au magasin de vérifier le login et le mot de passe auprès de l'API.
 const visiteur = await gsbStore.loginVisiteur(
   login.value,
   password.value
@@ -48,6 +54,7 @@ const visiteur = await gsbStore.loginVisiteur(
 console.log('Visiteur connecté :', visiteur)
 console.log('Visiteur enregistré dans Pinia :', gsbStore.utilisateur)
 
+// En cas de réussite, confirme la connexion puis navigue vers l'accueil.
 succes.value = true
 router.push('/accueil')
 }

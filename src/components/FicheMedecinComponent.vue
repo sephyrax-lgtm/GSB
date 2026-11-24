@@ -1,5 +1,6 @@
 
 <template>
+  <!-- La fiche n'est affichée que si un médecin est présent dans le magasin. -->
   <section class="fiche-medecin" v-if="medecin">
     <h2>Fiche du médecin</h2>
 
@@ -34,16 +35,20 @@
 </template>
 
 <script setup>
+// Importe ref pour créer des états réactifs et watch pour réagir au changement de médecin.
 import { ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useGsbStore } from '@/stores/gsbStore'
 import DataService from '@/services/DataService'
 
+// Récupère le médecin sélectionné depuis le magasin Pinia.
 const gsbStore = useGsbStore()
 const { medecin } = storeToRefs(gsbStore)
 
+// Message affiché après la tentative de mise à jour.
 const message = ref('')
 
+// Valeurs réactives liées aux champs du formulaire avec v-model.
 const form = ref({
   nom: '',
   prenom: '',
@@ -56,6 +61,7 @@ const form = ref({
 
 // Remplir le formulaire avec les informations du médecin
 watch(medecin, (nouveauMedecin) => {
+  // Quand un médecin est choisi, copie ses données dans le formulaire.
   if (nouveauMedecin) {
     form.value = {
       nom: nouveauMedecin.nom || '',
@@ -72,6 +78,7 @@ watch(medecin, (nouveauMedecin) => {
 // Enregistrer les modifications
 async function modifierMedecin() {
   try {
+    // Ajoute l'identifiant aux valeurs du formulaire pour identifier l'enregistrement.
     const donnees = {
       id: medecin.value.id,
       ...form.value
@@ -79,10 +86,12 @@ async function modifierMedecin() {
 
     console.log('Données envoyées :', donnees)
 
+    // Envoie les données à l'API puis affiche une confirmation.
     await DataService.majMedecin(donnees)
 
     message.value = 'Médecin modifié avec succès.'
   } catch (error) {
+    // Affiche l'erreur technique dans la console et un message dans la page.
     console.error(error)
     message.value = 'Erreur lors de la modification.'
   }

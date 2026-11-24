@@ -1,5 +1,6 @@
 
 <template>
+  <!-- Présente les états de chargement, d'erreur, de liste vide ou le tableau. -->
   <section class="liste-rapports">
     <h2>Rapports du médecin</h2>
 
@@ -34,20 +35,25 @@
 </template>
 
 <script setup>
+// Importe les outils Vue pour l'état réactif et l'exécution au montage.
 import { ref, onMounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useGsbStore } from '@/stores/gsbStore'
 import DataService from '@/services/DataService'
 
+// Récupère le médecin sélectionné pour demander ses rapports.
 const gsbStore = useGsbStore()
 const { medecin } = storeToRefs(gsbStore)
 
+// États d'affichage : liste, chargement en cours et présence d'une erreur.
 const rapports = ref([])
 const chargement = ref(true)
 const erreur = ref(false)
 
 onMounted(async () => {
+  // Lance le chargement dès que le composant est ajouté à la page.
   try {
+    // Attend la réponse de l'API pour le médecin actuellement sélectionné.
     rapports.value = await DataService.getLesRapports(medecin.value.id)
   } catch (error) {
     console.error(error)

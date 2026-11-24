@@ -1,5 +1,6 @@
 
 <template>
+  <!-- Page de consultation des médecins. -->
   <main class="medecins">
     <NavbarComponent />
 
@@ -25,6 +26,7 @@
 
 
 <script setup>
+// Importe les outils de réactivité et le crochet appelé au montage du composant.
 import { ref, computed, onMounted } from 'vue'
 import DataService from '@/services/DataService'
 import NavbarComponent from '@/components/NavbarComponent.vue'
@@ -33,12 +35,14 @@ import { useGsbStore } from '@/stores/gsbStore'
 import SousMenuMedecinComponent from '@/components/SousMenuMedecinComponent.vue'
 
 
+// Variables qui stockent les médecins et l'état du chargement initial.
 const medecins = ref([])
 const recherche = ref('')
 const chargement = ref(true)
 const erreur = ref(false)
 
 onMounted(async () => {
+  // Charge la liste des médecins dès l'affichage de cette page.
   try {
     medecins.value = await DataService.getMedecins()
   } catch (error) {
@@ -49,6 +53,7 @@ onMounted(async () => {
 })
 
 const medecinsFiltres = computed(() => {
+  // Produit une liste dérivée qui ne contient que les noms correspondants.
   return medecins.value.filter(medecin =>
     medecin.nom.toLowerCase().includes(recherche.value.toLowerCase())
   )

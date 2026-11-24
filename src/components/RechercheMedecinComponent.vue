@@ -1,5 +1,6 @@
 
 <template>
+  <!-- Zone contenant le champ de recherche et les résultats éventuels. -->
   <section class="recherche">
     <h2>Rechercher un médecin</h2>
 
@@ -26,22 +27,27 @@
 </template>
 
 <script setup>
+// ref crée des valeurs réactives qui mettent à jour le template lorsqu'elles changent.
 import { ref } from 'vue'
 import { useGsbStore } from '@/stores/gsbStore'
 
+// Récupère le magasin partagé pour accéder aux actions liées aux médecins.
 const gsbStore = useGsbStore()
 
+// Texte saisi dans le champ et liste des résultats renvoyés par l'API.
 const nom = ref('')
 const medecins = ref([])
 
 // Rechercher les médecins à chaque saisie
 async function getLesMedecins() {
+  // Si le champ est vide, efface les résultats et arrête la fonction.
   if (nom.value === '') {
     medecins.value = []
     return
   }
 
   try {
+    // Attend les résultats de recherche puis les place dans l'état réactif.
     medecins.value = await gsbStore.getLesMedecins(nom.value)
     console.log(medecins.value)
   } catch (error) {
@@ -51,8 +57,10 @@ async function getLesMedecins() {
 
 // Sélectionner un médecin
 function getInfos(medecin) {
+  // Enregistre le médecin choisi dans le magasin commun.
   gsbStore.getInfos(medecin)
 
+  // Vide le champ et masque la liste des suggestions après la sélection.
   nom.value = ''
   medecins.value = []
 }
