@@ -1,6 +1,5 @@
-
 // Adresse de base du serveur REST auquel l'application demande ses données.
-const API_URL = 'http://192.168.1.70/restGSB'
+const API_URL = 'http://172.16.61.106/restGSB'   // 'http://192.168.1.70/restGSB'
 
 // Regroupe les appels réseau à l'API dans une seule classe.
 class DataService {

@@ -10,8 +10,8 @@
       Erreur lors du chargement des rapports.
     </p>
 
-    <p v-else-if="rapports.length === 0">
-      Aucun rapport trouvé pour ce médecin.
+    <p v-else-if="rapports.length === 0"> 
+      Aucun rapport trouvé pour ce médecin. 
     </p>
 
     <table v-else>
